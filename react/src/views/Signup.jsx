@@ -1,7 +1,19 @@
 import {Link} from "react-router-dom";
+import {useRef} from "react";
 
 export default function Signup() {
-    const onSubmit = () => {
+    const nameRef = useRef();
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const passwordConfirmationRef = useRef();
+    const onSubmit = (ev) => {
+        ev.preventDefault()
+        const payload = {
+            name: nameRef.current.value,
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+            password_confirmation: passwordConfirmationRef.current.value,
+        }
 
     }
     return(
@@ -11,11 +23,11 @@ export default function Signup() {
                     <h1 className="title">
                         Sign Up
                     </h1>
-                    <input type="text" placeholder="Name"/>
-                    <input type="email" placeholder="Email"/>
-                    <input type="password" placeholder="Password"/>
-                    <input type="password" placeholder="Password Confirmation"/>
-                    <button className="btn btn-block">
+                    <input ref={nameRef} type="text" placeholder="Name"/>
+                    <input ref={emailRef} type="email" placeholder="Email"/>
+                    <input ref={passwordRef} type="password" placeholder="Password"/>
+                    <input ref={passwordConfirmationRef} type="password" placeholder="Password Confirmation"/>
+                    <button type="submit" className="btn btn-block">
                         Signup
                     </button>
                     <p className="message">

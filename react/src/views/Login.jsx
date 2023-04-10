@@ -13,7 +13,7 @@ export default function Login() {
                 </h1>
                 <input type="email" placeholder="Email"/>
                 <input type="password" placeholder="Password"/>
-                <button className="btn btn-block">
+                <button type="submit" className="btn btn-block">
                     Login
                 </button>
                 <p className="message">
