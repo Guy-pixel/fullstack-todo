@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+Route::post('/register', function(string $username, string $password, string $email) {
+    $foundUser = User::where('username', $username)->exists();
+    if($foundUser){
+        return [
+            "status" => 409,
+            "status text" => "User Already Exists"
+        ];
+    } else {
+        $newUser = User::create([$username, $password, $email]);
+
+    }
+
 });

@@ -2,6 +2,7 @@ import {Link} from "react-router-dom";
 import {useRef} from "react";
 import axiosClient from "../axios-client.js";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
+import axios from "axios";
 
 export default function Signup() {
     const nameRef = useRef();
@@ -19,16 +20,20 @@ export default function Signup() {
             password: passwordRef.current.value,
             password_confirmation: passwordConfirmationRef.current.value,
         }
-        axiosClient.post('/signup', payload)
+
+        axiosClient.post('/register', payload)
             .then(({data})=>{
+                console.log(data);
                 setUser(data.user);
                 setToken(data.token);
             })
-            .catch(err => {
-                const response = err.response;
-                if(response && response.status===422){
-                    console.log(response.data.errors);
-                }
+            .catch(error => {
+                console.log(error);
+                const response = error.response;
+                // if(response && response.status===422){
+                //     console.log(response.data.errors);
+                // }
+
             })
     }
     return(
