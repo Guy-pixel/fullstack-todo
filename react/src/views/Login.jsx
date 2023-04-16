@@ -8,6 +8,7 @@ export default function Login() {
     <div className="login-signup-form animated fadeInDown">
         <div className="form">
             <form onSubmit={onSubmit}>
+
                 <h1 className="title">
                     Login
                 </h1>

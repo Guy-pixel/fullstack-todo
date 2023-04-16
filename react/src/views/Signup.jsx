@@ -4,7 +4,8 @@ import axiosClient from "../axios-client.js";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
 import axios from "axios";
 
-export default function Signup() {
+export default function Signup()
+{
     const nameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -36,6 +37,14 @@ export default function Signup() {
 
             })
     }
+    let passwordMatch = true;
+    function checkPasswords(){
+        if(passwordRef.current.value !== passwordConfirmationRef.current.value){
+
+        } else {
+
+        }
+    }
     return(
         <div className="login-signup-form animated fadeInDown">
             <div className="form">
@@ -46,7 +55,8 @@ export default function Signup() {
                     <input ref={nameRef} type="text" placeholder="Name"/>
                     <input ref={emailRef} type="email" placeholder="Email"/>
                     <input ref={passwordRef} type="password" placeholder="Password"/>
-                    <input ref={passwordConfirmationRef} type="password" placeholder="Password Confirmation"/>
+                    <input onChange={checkPasswords} ref={passwordConfirmationRef} type="password" placeholder="Password Confirmation"/>
+                    <div id="passwordMismatch">Message</div>
                     <button type="submit" className="btn btn-block">
                         Signup
                     </button>
@@ -56,5 +66,6 @@ export default function Signup() {
                 </form>
             </div>
         </div>
+
     )
 }
