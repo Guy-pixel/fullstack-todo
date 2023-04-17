@@ -1,8 +1,25 @@
 import {Link} from "react-router-dom";
+import {useRef} from "react";
+import axiosClient from "../axios-client.js";
 
 export default function Login() {
-    const onSubmit = () => {
 
+    const emailRef = useRef();
+    const passwordRef = useRef();
+
+    const onSubmit = (ev) => {
+        ev.preventDefault();
+        const payload = {
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+        }
+        axiosClient.post('/login', payload)
+            .then(({data})=>{
+                console.log(data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
     return(
     <div className="login-signup-form animated fadeInDown">
@@ -12,8 +29,8 @@ export default function Login() {
                 <h1 className="title">
                     Login
                 </h1>
-                <input type="email" placeholder="Email"/>
-                <input type="password" placeholder="Password"/>
+                <input ref={emailRef} type="email" placeholder="Email"/>
+                <input ref={passwordRef} type="password" placeholder="Password"/>
                 <button type="submit" className="btn btn-block">
                     Login
                 </button>
