@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {useRef} from "react";
+import {useRef, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
 import axios from "axios";
@@ -12,7 +12,8 @@ export default function Signup()
     const passwordConfirmationRef = useRef();
 
     const {setUser, setToken} = useStateContext();
-
+    const [password, setPassword] = useState();
+    const [confirmationPassword, setConfirmationPassword] = useState();
     const onSubmit = (ev) => {
         ev.preventDefault()
         const payload = {
@@ -39,10 +40,13 @@ export default function Signup()
     }
     let passwordMatch = true;
     function checkPasswords(){
+        setConfirmationPassword()
         if(passwordRef.current.value !== passwordConfirmationRef.current.value){
-
+            passwordRef.html('test1')
+            console.log('hit1')
         } else {
-
+            passwordRef.html('test2')
+            console.log('hit2')
         }
     }
     return(
@@ -54,7 +58,7 @@ export default function Signup()
                     </h1>
                     <input ref={nameRef} type="text" placeholder="Name"/>
                     <input ref={emailRef} type="email" placeholder="Email"/>
-                    <input ref={passwordRef} type="password" placeholder="Password"/>
+                    <input onChange={checkPasswords} ref={passwordRef} type="password" placeholder="Password"/>
                     <input onChange={checkPasswords} ref={passwordConfirmationRef} type="password" placeholder="Password Confirmation"/>
                     <div id="passwordMismatch">Message</div>
                     <button type="submit" className="btn btn-block">

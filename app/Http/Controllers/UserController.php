@@ -48,8 +48,9 @@ class UserController extends Controller
             $user = static::getUserByName($name);
         }
         if(isset($user) && Hash::check($password, $user->password)){
-            Auth::login($user);
-            return $user;
+            $token = $user->createToken('auth_token')->plainTextToken;
+            $cookie = cookie('token', $token, 60 * 24);
+            return response($user->toArray())->withCookie($cookie);
         }
         return "We Were Unable to Find Matching Credentials";
     }
