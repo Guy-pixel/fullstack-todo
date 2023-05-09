@@ -40,3 +40,7 @@ Route::post('/register', function(Request $request) {
 Route::post('/login', function(Request $request){
      return UserController::login($request->password, null, $request->email);
 });
+
+Route::post('/refreshtoken', function(Request $request){
+    return UserController::refreshToken($request->user, $request->refreshToken);
+});

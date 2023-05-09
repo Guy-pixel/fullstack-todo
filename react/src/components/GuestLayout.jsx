@@ -3,7 +3,7 @@ import {useStateContext} from "../contexts/ContextProvider.jsx";
 
 export default function GuestLayout() {
     const {token} = useStateContext()
-    if(token){
+    if(localStorage.getItem('token')){
         return <Navigate to="/"/>
     }
     return(

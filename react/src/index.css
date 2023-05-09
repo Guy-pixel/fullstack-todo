@@ -79,9 +79,11 @@ input:focus {
     color: #212121;
     transition: all 0.3s;
     border-radius: 6px;
+    cursor: pointer;
 }
 .btn-logout:hover {
     background-color: rgba(0, 0, 0, 0.1);
+
 }
 
 .btn:hover,
@@ -112,7 +114,7 @@ table > tbody > tr > td {
     white-space: nowrap;
 }
 
-.card {
+.taskCard {
     background-color: #FFF;
     border-radius: 0.5rem;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);

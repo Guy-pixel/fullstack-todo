@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import {useRef, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
@@ -28,10 +28,12 @@ export default function Signup()
                 console.log(data);
                 setUser(data.user);
                 setToken(data.token);
+                return <Navigate to='/dashboard' />
             })
             .catch(error => {
                 console.log(error);
                 const response = error.response;
+
                 // if(response && response.status===422){
                 //     console.log(response.data.errors);
                 // }
@@ -40,12 +42,12 @@ export default function Signup()
     }
     let passwordMatch = true;
     function checkPasswords(){
-        setConfirmationPassword()
-        if(passwordRef.current.value !== passwordConfirmationRef.current.value){
-            passwordRef.html('test1')
+        setPassword(document.getElementsByName())
+        if(document.getElementById !== passwordConfirmationRef.current.value){
+            document.getElementById('passwordMismatch').innerHTML = 'test'
             console.log('hit1')
         } else {
-            passwordRef.html('test2')
+            document.getElementById('passwordMismatch').innerHTML = 'test'
             console.log('hit2')
         }
     }
@@ -56,10 +58,10 @@ export default function Signup()
                     <h1 className="title">
                         Sign Up
                     </h1>
-                    <input ref={nameRef} type="text" placeholder="Name"/>
-                    <input ref={emailRef} type="email" placeholder="Email"/>
-                    <input onChange={checkPasswords} ref={passwordRef} type="password" placeholder="Password"/>
-                    <input onChange={checkPasswords} ref={passwordConfirmationRef} type="password" placeholder="Password Confirmation"/>
+                    <input id="name" ref={nameRef} type="text" placeholder="Name"/>
+                    <input id="email"ref={emailRef} type="email" placeholder="Email"/>
+                    <input id="password" onChange={checkPasswords} ref={passwordRef} type="password" placeholder="Password"/>
+                    <input id="passwordconfirmation" onChange={checkPasswords} ref={passwordConfirmationRef} type="password" placeholder="Password Confirmation"/>
                     <div id="passwordMismatch">Message</div>
                     <button type="submit" className="btn btn-block">
                         Signup

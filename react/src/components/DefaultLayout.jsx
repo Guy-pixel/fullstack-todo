@@ -1,14 +1,20 @@
-import {Outlet, Navigate, Link} from "react-router-dom";
+import {Outlet, Navigate, Link, useNavigate} from "react-router-dom";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
 
 export default function DefaultLayout() {
     const {user, token} = useStateContext()
-
-    if (!token) {
-        return <Navigate to='/login'/>
+    let navigate = useNavigate();
+    if (!localStorage.getItem('token')) {
+        return <Navigate to='/login'/>;
     }
     const onLogout = (ev) =>{
-        ev.default();
+        localStorage.clear();
+        navigate('/login');
+    }
+
+    function refreshToken(refreshToken){
+        localStorage.removeItem('token');
+        axios.post();
     }
 
     return (
@@ -24,7 +30,7 @@ export default function DefaultLayout() {
                     </div>
                     <div>
                         {user.name}
-                        <a href={onLogout} className="btn-logout">Logout</a>
+                        <a onClick={onLogout} className="btn-logout">Logout</a>
                     </div>
                 </header>
                 <main>

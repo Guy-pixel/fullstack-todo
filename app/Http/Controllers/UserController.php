@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -48,10 +49,22 @@ class UserController extends Controller
             $user = static::getUserByName($name);
         }
         if(isset($user) && Hash::check($password, $user->password)){
-            $token = $user->createToken('auth_token')->plainTextToken;
-            $cookie = cookie('token', $token, 60 * 24);
-            return response($user->toArray())->withCookie($cookie);
+            $token = $user->createToken('auth_token')->accessToken;
+            $refreshToken = $user->createToken('refresh_token')->accessToken;
+            return response([
+                'user' => $user->toArray(),
+                'token' => Crypt::encryptString($token),
+                'refresh_token' => Crypt::encryptString($refreshToken)
+            ]);
         }
         return "We Were Unable to Find Matching Credentials";
+    }
+    public static function refreshToken($user, $refreshToken){
+        if(!$refreshToken){
+            return Exception('No refresh token found');
+        }
+        $email = $user->email;
+        $foundUser = static::getUserByEmail($email);
+        $user->getToken();
     }
 }
