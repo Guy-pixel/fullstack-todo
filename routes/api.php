@@ -44,3 +44,5 @@ Route::post('/login', function(Request $request){
 Route::post('/refreshtoken', function(Request $request){
     return UserController::refreshToken($request->user, $request->refreshToken);
 });
+
+Route::resource('tasks', \App\Http\Controllers\TaskController::class);

@@ -4,8 +4,7 @@ import axiosClient from "../axios-client.js";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
 import axios from "axios";
 
-export default function Signup()
-{
+export default function Signup() {
     const nameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -24,11 +23,11 @@ export default function Signup()
         }
 
         axiosClient.post('/register', payload)
-            .then(({data})=>{
+            .then(({data}) => {
                 console.log(data);
                 setUser(data.user);
                 setToken(data.token);
-                return <Navigate to='/dashboard' />
+                return <Navigate to='/dashboard'/>
             })
             .catch(error => {
                 console.log(error);
@@ -41,28 +40,61 @@ export default function Signup()
             })
     }
     let passwordMatch = true;
-    function checkPasswords(){
-        setPassword(document.getElementsByName())
-        if(document.getElementById !== passwordConfirmationRef.current.value){
-            document.getElementById('passwordMismatch').innerHTML = 'test'
-            console.log('hit1')
-        } else {
-            document.getElementById('passwordMismatch').innerHTML = 'test'
-            console.log('hit2')
+
+    function constructError(element, message) {
+        const errorID = element.getAttribute('id') + "-error-message";
+        if (!document.getElementById(errorID)) {
+            let div = document.createElement('div');
+            div.innerHTML = message;
+            div.classList.add('errorMessage');
+            div.setAttribute('id', errorID)
+            element.parentNode.insertBefore(div, element.nextSibling);
         }
     }
-    return(
+
+    function destroyError(element) {
+        const errorID = element.getAttribute('id') + "-error-message";
+        const errorDiv = document.getElementById(errorID);
+        if (errorDiv) {
+            errorDiv.remove();
+        }
+    }
+
+    function checkName() {
+        const element = document.getElementById('name');
+        if (element.value === null) {
+            constructError(element, "No Name Entered!")
+        } else if (!element.value.match(/^[a-zA-Z\s]+$/g)) {
+            constructError(element, "No Non-alphabetical Characters!")
+        } else {
+            destroyError(element)
+        }
+    }
+
+    function checkPasswords() {
+        const password = document.getElementById('password');
+        const passwordConfirmation = document.getElementById('passwordconfirmation')
+        if (password.value !== passwordConfirmation.value) {
+            constructError(passwordConfirmation, "Passwords Don't Match!")
+        } else {
+            destroyError(passwordConfirmation)
+        }
+
+    }
+
+    return (
         <div className="login-signup-form animated fadeInDown">
             <div className="form">
                 <form onSubmit={onSubmit}>
                     <h1 className="title">
                         Sign Up
                     </h1>
-                    <input id="name" ref={nameRef} type="text" placeholder="Name"/>
-                    <input id="email"ref={emailRef} type="email" placeholder="Email"/>
-                    <input id="password" onChange={checkPasswords} ref={passwordRef} type="password" placeholder="Password"/>
-                    <input id="passwordconfirmation" onChange={checkPasswords} ref={passwordConfirmationRef} type="password" placeholder="Password Confirmation"/>
-                    <div id="passwordMismatch">Message</div>
+                    <input required onKeyUp={checkName} id="name" ref={nameRef} type="text" placeholder="Name"/>
+                    <input required id="email" ref={emailRef} type="email" placeholder="Email"/>
+                    <input required id="password" onKeyUp={checkPasswords} ref={passwordRef} type="password"
+                           placeholder="Password"/>
+                    <input required id="passwordconfirmation" onKeyUp={checkPasswords} ref={passwordConfirmationRef}
+                           type="password" placeholder="Password Confirmation"/>
                     <button type="submit" className="btn btn-block">
                         Signup
                     </button>
